@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Factors</title>
+    <style>
+        body {
+            background-color:#231B1B;
+        }
+        input {
+            margin:5px;
+            color:#DDFFF7;
+            background-color:#231B1B;
+            border-color:#DDFFF7;
+        }
+        h1 {
+            font-size:20px;
+            font-family:monospace;
+            color:#DDFFF7;
+            padding:5px;
+        }
+    </style>
+</head>
+<body>
+    <input type='text' id='a'>
+    <br>
+    <input type='text' id='b'>
+    <br>
+    <input type='text' id='c'>
+    <button id='enter'>Enter</button>
+    <br>
+    <h1 id='output'></h1>
+    <script>
+        enter.addEventListener('click', function(){
+            var a = document.getElementById('a').value;
+            var b = document.getElementById('b').value;
+            var c = document.getElementById('c').value;
+            a = parseInt(a);
+            b = parseInt(b);
+            c = parseInt(c);
+            var posFactors = [];
+            var negFactors = [];
+            var firstNum = a*c;
+            var x1 = 0;
+            var x2 = 0;
+            function findFactors(toFactor, posFactorArr, negFactorArr){
+                for(i=1; i<=(Math.abs(toFactor)); i++){
+                    if(toFactor % i == 0){
+                        posFactorArr.push(i);
+                        negFactorArr.push(i*(-1));
+                    }
+                }
+            }
+            findFactors(firstNum, posFactors, negFactors);
+            var factors = posFactors.concat(negFactors);
+            function findXs(){
+                for(i=0; i<factors.length; i++){
+                    var secondNum = b-factors[i];
+                    if (secondNum*factors[i] == firstNum){
+                        x1 = factors[i];
+                        x2 = secondNum;
+                    }
+                }
+                if (x1 != 0 && x2 != 0){
+                    console.log(x1 + ', ' + x2);
+                }
+                else {
+                    document.getElementById('output').innerHTML = ('unfactorable');
+                }
+            }
+            findXs();
+            var aPosFactors = [];
+            var aNegFactors = [];
+            findFactors(a, aPosFactors, aNegFactors);
+            var aFactors = aPosFactors.concat(aNegFactors);
+            var cPosFactors = [];
+            var cNegFactors = [];
+            findFactors(c, cPosFactors, cNegFactors);
+            var cFactors = cPosFactors.concat(cNegFactors);
+            var x1PosFactors = [];
+            var x1NegFactors = [];
+            findFactors(x1, x1PosFactors, x1NegFactors);
+            var x1Factors = x1PosFactors.concat(x1NegFactors);
+            var x2PosFactors = [];
+            var x2NegFactors = [];
+            findFactors(x2, x2PosFactors, x2NegFactors);
+            var x2Factors = x2PosFactors.concat(x2NegFactors);
+            var firstFactors = [];
+            var secondFactors = [];
+            function commonFactors(firstArr, secondArr, store){
+                for(i=0; i<firstArr.length; i++){
+                    for(e=0; e<secondArr.length; e++){
+                        if(firstArr[i] == secondArr[e]){
+                        store.push(firstArr[i]);
+                        }
+                    }
+                }
+            }
+            commonFactors(aFactors, x1Factors, firstFactors);
+            commonFactors(cFactors, x2Factors, secondFactors);
+            var divide1 = (Math.max.apply(Math, firstFactors));
+            var divide2 = (Math.max.apply(Math, secondFactors));
+            var num1 = 0;
+            var num2 = 0;
+            var num3 = 0;
+            var num4 = 0;
+            function noMistake(divide, variable){
+                if(divide != variable){
+                    return (variable/divide);  
+                }
+                else {
+                    return variable;
+                }
+            }
+            num1 = noMistake(divide1, a);
+            num2 = noMistake(divide1, x1);
+            num3 = noMistake(divide2, x2);
+            num4 = noMistake(divide2, c);
+            if(num2 == num4){
+                document.getElementById('output').innerHTML = '(' + (num1) + 'x + ' + (num3) + ')(x + ' + (num4) + ')';
+            }
+            else {
+                num4 = (num4*(-1))
+                document.getElementById('output').innerHTML = '(' + (num1) + 'x + ' + (num3) + ')(x + ' + (num4) + ')';
+            }
+            if (x1 != 0 && x2 != 0){
+                    console.log(x1 + ', ' + x2);
+            }
+            else {
+                    document.getElementById('output').innerHTML = ('unfactorable');
+                }
+        })
+    </script>
+</body>
+</html>
